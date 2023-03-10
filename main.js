@@ -42,18 +42,18 @@ function init()
 {
     nagyKep = document.querySelector("#nagyKep");
     kisKepek = document.querySelector("#kisKepek");
-    const balGomb = document.querySelectorAll(".bal")[0];
-    const jobbGomb = document.querySelectorAll(".jobb")[0];
-    balGomb.addEventListener("click", () => nagyKepetBetolt(KEPEK_INFO[indexetCsokkent()]));
-    jobbGomb.addEventListener("click", () => nagyKepetBetolt(KEPEK_INFO[indexetNovel()]));
+    const BAL_GOMB = document.querySelectorAll(".bal")[0];
+    const JOBB_GOMB = document.querySelectorAll(".jobb")[0];
+    BAL_GOMB.addEventListener("click", () => nagyKepetBetolt(KEPEK_INFO[indexetCsokkent()]));
+    JOBB_GOMB.addEventListener("click", () => nagyKepetBetolt(KEPEK_INFO[indexetNovel()]));
     nagyKepetBetolt(KEPEK_INFO[0]);
     for (let i = 0; i < KEPEK_INFO.length; i++)
     {
-        const kepInfo = KEPEK_INFO[i];
-        letezoTagekhezIr(kisKepek, kepetIr(kepInfo.kep, kepInfo.alt, "class='korvonalas'"))
+        const KEP_INFO = KEPEK_INFO[i];
+        letezoTagekhezIr(kisKepek, kepetIr(KEP_INFO.kep, KEP_INFO.alt, "class='korvonalas'"))
     }
-    const kisKepekLista = document.querySelectorAll("#kisKepek img");
-    kisKepekLista.forEach((kisKep, index) => kisKep.addEventListener("click", () =>
+    const KIS_KEPEK_LISTA = document.querySelectorAll("#kisKepek img");
+    KIS_KEPEK_LISTA.forEach((kisKep, index) => kisKep.addEventListener("click", () =>
     {
         if (index !== kepIndex)
         {
@@ -93,34 +93,9 @@ function indexetNovel()
     return kepIndex;
 }
 
-function letezoTagekKozeIr(szuloElem, tartalom = "")
+function kepetIr(kep, alt, parameterek = null)
 {
-    szuloElem.innerHTML = tartalom;
-}
-
-function letezoTagekKozeIrKomplex(szuloElem, tartalom = () => "")
-{
-    letezoTagekKozeIr(szuloElem, tartalom());
-}
-
-function letezoTagekhezIr(szuloElem, tartalom = "")
-{
-    szuloElem.innerHTML += tartalom;
-}
-
-function letezoTagekhezIrKomplex(szuloElem, tartalom = () => "")
-{
-    letezoTagekhezIr(szuloElem, tartalom());
-}
-
-function ujTagekKozeIr(tag, parameterek = null, tartalom = "")
-{
-    return `<${tag}${parameterek ? " " + parameterek : ""}>${tartalom}</${tag}>`;
-}
-
-function ujTagekKozeIrKomplex(tag, parameterek = null, tartalom = () => "")
-{
-    return ujTagekKozeIr(tag, parameterek, tartalom());
+    return paratlanTagetIr("img", `${parameterek ? parameterek + " " : ""}src="kepek/${kep}" alt="${alt}"`);
 }
 
 function paratlanTagetIr(tag, parameterek)
@@ -128,7 +103,32 @@ function paratlanTagetIr(tag, parameterek)
     return `<${tag} ${parameterek}>`;
 }
 
-function kepetIr(kep, alt, parameterek = null)
+function letezoTagekKozeIrKomplex(szuloElem, tartalom = () => "")
 {
-    return paratlanTagetIr("img", `${parameterek ? parameterek + " " : ""}src="kepek/${kep}" alt="${alt}"`);
+    letezoTagekKozeIr(szuloElem, tartalom());
+}
+
+function letezoTagekKozeIr(szuloElem, tartalom = "")
+{
+    szuloElem.innerHTML = tartalom;
+}
+
+function letezoTagekhezIrKomplex(szuloElem, tartalom = () => "")
+{
+    letezoTagekhezIr(szuloElem, tartalom());
+}
+
+function letezoTagekhezIr(szuloElem, tartalom = "")
+{
+    szuloElem.innerHTML += tartalom;
+}
+
+function ujTagekKozeIrKomplex(tag, parameterek = null, tartalom = () => "")
+{
+    return ujTagekKozeIr(tag, parameterek, tartalom());
+}
+
+function ujTagekKozeIr(tag, parameterek = null, tartalom = "")
+{
+    return `<${tag}${parameterek ? " " + parameterek : ""}>${tartalom}</${tag}>`;
 }
