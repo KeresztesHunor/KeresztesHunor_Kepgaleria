@@ -44,8 +44,22 @@ function init()
     kisKepek = document.querySelector("#kisKepek");
     const BAL_GOMB = document.querySelectorAll(".bal")[0];
     const JOBB_GOMB = document.querySelectorAll(".jobb")[0];
-    BAL_GOMB.addEventListener("click", () => nagyKepetBetolt(KEPEK_INFO[indexetCsokkent()]));
-    JOBB_GOMB.addEventListener("click", () => nagyKepetBetolt(KEPEK_INFO[indexetNovel()]));
+    BAL_GOMB.addEventListener("click", () => nagyKepetBetolt(KEPEK_INFO[(() =>
+    {
+        if (--kepIndex < 0)
+        {
+            kepIndex = KEPEK_INFO.length - 1;
+        }
+        return kepIndex;
+    })()]));
+    JOBB_GOMB.addEventListener("click", () => nagyKepetBetolt(KEPEK_INFO[(() =>
+    {
+        if (++kepIndex > KEPEK_INFO.length - 1)
+        {
+            kepIndex = 0;
+        }
+        return kepIndex;
+    })()]));
     nagyKepetBetolt(KEPEK_INFO[0]);
     for (let i = 0; i < KEPEK_INFO.length; i++)
     {
@@ -65,32 +79,14 @@ function init()
 
 function nagyKepetBetolt(kepInfo)
 {
-    letezoTagekKozeIrKomplex(nagyKep, () =>
+    letezoTagekKozeIr(nagyKep, (() =>
     {
         let txt = "";
         txt += ujTagekKozeIr("h2", null, kepInfo.cim);
         txt += kepetIr(kepInfo.kep, kepInfo.alt);
         txt += ujTagekKozeIr("p", null, kepInfo.leiras);
         return txt;
-    });
-}
-
-function indexetCsokkent()
-{
-    if (--kepIndex < 0)
-    {
-        kepIndex = KEPEK_INFO.length - 1;
-    }
-    return kepIndex;
-}
-
-function indexetNovel()
-{
-    if (++kepIndex > KEPEK_INFO.length - 1)
-    {
-        kepIndex = 0;
-    }
-    return kepIndex;
+    })());
 }
 
 function kepetIr(kep, alt, parameterek = null)
@@ -103,29 +99,14 @@ function paratlanTagetIr(tag, parameterek)
     return `<${tag} ${parameterek}>`;
 }
 
-function letezoTagekKozeIrKomplex(szuloElem, tartalom = () => "")
-{
-    letezoTagekKozeIr(szuloElem, tartalom());
-}
-
 function letezoTagekKozeIr(szuloElem, tartalom = "")
 {
     szuloElem.innerHTML = tartalom;
 }
 
-function letezoTagekhezIrKomplex(szuloElem, tartalom = () => "")
-{
-    letezoTagekhezIr(szuloElem, tartalom());
-}
-
 function letezoTagekhezIr(szuloElem, tartalom = "")
 {
     szuloElem.innerHTML += tartalom;
-}
-
-function ujTagekKozeIrKomplex(tag, parameterek = null, tartalom = () => "")
-{
-    return ujTagekKozeIr(tag, parameterek, tartalom());
 }
 
 function ujTagekKozeIr(tag, parameterek = null, tartalom = "")
